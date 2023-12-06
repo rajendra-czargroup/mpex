@@ -47,7 +47,7 @@ export default defineComponent({
     TopBar,
     TopMenu,
     MainNavigation,
-    AppFooter: () => import(/* webpackPrefetch: true */ '~/components/AppFooter.vue'),
+    AppFooter: () => import(/* webpackPrefetch: true */ '~/components/Footer/AppFooter.vue'),
     CartSidebar: () => import(/* webpackPrefetch: true */ '~/modules/checkout/components/CartSidebar.vue'),
     WishlistSidebar: () => import(/* webpackPrefetch: true */ '~/modules/wishlist/components/WishlistSidebar.vue'),
     LoginModal: () => import(/* webpackPrefetch: true */ '~/modules/customer/components/LoginModal/LoginModal.vue'),
