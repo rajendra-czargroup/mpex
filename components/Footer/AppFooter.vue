@@ -4,36 +4,34 @@
     multiple
     class="footer"
   >
-
   <SfFooterColumn :title="$t('USEFUL LINKS')">
-      <SfList v-if="footerContent && footerContent[0] && footerContent[0].useful_links">
+    <SfList v-if="footerContent && footerContent[0] && footerContent[0].useful_links">
         <SfListItem
-        
         v-for="(val, n) in footerContent[0].useful_links"
         :key="n">
-        <SfLink
-          :target="val.target"
-          :link="addBasePath(val.url !== null ? val.url:localePath('/'))">
-            <span>{{val.title}}</span>
-        </SfLink>
+          <SfMenuItem
+            :label="$t(val.title)"
+            :target="val.target"
+            :link ="$t(generateLink(val.url))"
+          />
         </SfListItem>
       </SfList>
     </SfFooterColumn>
 
     <SfFooterColumn :title="$t('PURCHASE INFO')">
-      <SfList v-if="footerContent && footerContent[0] && footerContent[0].purchase_info">
+    <SfList v-if="footerContent && footerContent[0] && footerContent[0].purchase_info">
         <SfListItem
         v-for="(val, n) in footerContent[0].purchase_info"
         :key="n">
-        <SfLink
-          :target="val.target"
-          :link="addBasePath(val.url !== null ? val.url:localePath('/'))">
-            <span>{{val.title}}</span>
-        </SfLink>
+          <SfMenuItem
+            :label="$t(val.title)"
+            :target="val.target"
+            :link ="$t(generateLink(val.url))"
+          />
         </SfListItem>
       </SfList>
-    </SfFooterColumn>
-
+    </SfFooterColumn> 
+       
     <SfFooterColumn :title="$t('GET IN TOUCH')">
       <SfList v-if="footerContent && footerContent[0] && footerContent[0].get_in_touch">
         <SfListItem
@@ -63,7 +61,7 @@ import {
   SfFooter, SfList, SfImage, SfMenuItem,SfLink
 } from '@storefront-ui/vue';
 import { defineComponent } from '@nuxtjs/composition-api';
-import { addBasePath } from '~/helpers/addBasePath';
+import { generateLink } from '~/helpers/addBasePath';
 import { useFooter } from './useFooter';
 
 export default defineComponent({
@@ -78,7 +76,7 @@ export default defineComponent({
     const {footerContent} = useFooter();
 
     return {
-      addBasePath,
+      generateLink,
       footerContent,
     };
   },

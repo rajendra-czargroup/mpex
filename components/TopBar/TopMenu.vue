@@ -6,7 +6,7 @@
           :key="n"
           :class="'sf-header-navigation-item__link'+val.class"
           :target="val.target == 1 ?'_blank' : '_self'"
-          :link="addBasePath(val.link)">
+          :link="generateLink(val.link)">
             <span>{{val.title}}</span>
         </SfLink>
       </template>
@@ -17,7 +17,7 @@
   import { defineComponent } from '@nuxtjs/composition-api';
   import { SfLink} from '@storefront-ui/vue';
   import { useTopBar } from './useTopBar';
-  import { addBasePath } from '~/helpers/addBasePath';
+  import { generateLink } from '~/helpers/addBasePath';
   
   export default defineComponent({
     components: {
@@ -27,7 +27,7 @@
       const {topMenues } = useTopBar();
       return {
         topMenues,
-        addBasePath,
+        generateLink,
       };
     },
   });
