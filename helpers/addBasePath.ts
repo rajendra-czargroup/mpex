@@ -1,4 +1,4 @@
-import { useRouter} from '@nuxtjs/composition-api';
+import { useRouter, useContext} from '@nuxtjs/composition-api';
 
 /**
  * Adds prefix with base path configured in router.base to provided url
@@ -23,9 +23,11 @@ export const generateLink = (path: string): string => {
     return path;
   }
 
-  const basePath =  (useRouter().currentRoute.path);
+  const basePath =  (useRouter().options.base);
+  const { localePath } = useContext();
   if(!path) {
-    return `${basePath}`;
+    return  `${localePath('/')}${basePath}`;
   }
-  return `${basePath}${'/'}${path}`;
+
+  return `${localePath('/')}${basePath}${path}`;
 };
