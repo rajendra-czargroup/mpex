@@ -50,5 +50,15 @@ export default function config(): FilterConfigInterface[] {
       type: FilterTypeEnum.YES_NO,
       component: RendererTypesEnum.YES_NO,
     },
+    {
+      attrCode: 'category_uid',
+      type: FilterTypeEnum.CHECKBOX,
+      component: RendererTypesEnum.CHECKBOX,
+    },
+    {
+      attrCode: 'manufacturer',
+      type: FilterTypeEnum.CHECKBOX,
+      component: RendererTypesEnum.CHECKBOX,
+    },
   ];
 }

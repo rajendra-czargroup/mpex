@@ -4317,6 +4317,14 @@ export interface PaymentMethodInput {
   paypal_express?: InputMaybe<PaypalExpressInput>;
   /** Purchase order number */
   purchase_order_number?: InputMaybe<Scalars['String']>;
+  /** Affirm payment */
+  affirm?: InputMaybe<AffirmInput>;
+}
+
+/** Required input for Affirm payments */
+export interface AffirmInput {
+  /** The checkout token  */
+  checkout_token: Scalars['String'];
 }
 /** The stored payment method available to the customer */
 export interface PaymentToken {
