@@ -138,7 +138,7 @@ export default async () => {
           '*/customer*': 'none',
           '*/checkout*': 'none',
         },
-      }],
+      }]
     ],
     i18n: {
       country: 'US',

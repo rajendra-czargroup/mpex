@@ -23,6 +23,7 @@ import { SfRadio } from '@storefront-ui/vue';
 import { ref, onMounted, defineComponent } from '@nuxtjs/composition-api';
 import usePaymentProvider from '~/modules/checkout/composables/usePaymentProvider';
 import type { AvailablePaymentMethod } from '~/modules/GraphQL/types';
+import Affirm_script from '~/components/czar/affirm_script/affirm_script.vue';
 
 export default defineComponent({
   name: 'VsfPaymentProvider',
@@ -40,14 +41,13 @@ export default defineComponent({
     });
 
     const definePaymentMethods = async (paymentMethodCode: string) => {
-      paymentMethods.value = await save({
-        paymentMethod: {
-          code: paymentMethodCode,
-        },
-      });
+      // paymentMethods.value = await save({
+      //   paymentMethod: {
+      //     code: paymentMethodCode,
+      //   },
+      // });
 
       selectedPaymentMethodCode.value = paymentMethodCode;
-
       emit('status', paymentMethodCode);
     };
 

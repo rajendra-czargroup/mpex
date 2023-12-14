@@ -152,6 +152,9 @@
         </div>
       </div>
     </div>
+    <ClientOnly>
+      <Affirm_script/>
+    </ClientOnly>
   </div>
 </template>
 
@@ -184,6 +187,7 @@ import getShippingMethodPrice from '~/helpers/checkout/getShippingMethodPrice';
 import { removeItem } from '~/helpers/asyncLocalStorage';
 import { isPreviousStepValid } from '~/helpers/checkout/steps';
 import type { BundleCartItem, ConfigurableCartItem, CartItemInterface } from '~/modules/GraphQL/types';
+import Affirm_script from '~/components/czar/affirm_script/affirm_script.vue'
 
 export default defineComponent({
   name: 'ReviewOrderAndPayment',
@@ -198,6 +202,7 @@ export default defineComponent({
     SfLink,
     SfImage,
     VsfPaymentProvider: () => import('~/modules/checkout/components/VsfPaymentProvider.vue'),
+    Affirm_script
   },
   setup() {
     const order = ref(null);
@@ -220,18 +225,35 @@ export default defineComponent({
     });
 
     const processOrder = async () => {
-      order.value = await make();
-      setCart(null);
-      app.$vsf.$magento.config.state.removeCartId();
-      await load();
-      await removeItem('checkout');
-      const thankYouRoute = app.localeRoute({
-        name: 'thank-you',
-        query: {
-          order: order.value.order.order_number,
-        },
-      });
-      await router.push(thankYouRoute);
+      console.log('fff');
+      if (process.client) {
+      //window.affirm.checkout();
+      console.log('fffsss');
+      console.log(window.affirm.ui);
+      window.affirm.ui.ready(function() {
+          //window.window.affirm.checkout(JSON.parse('{"order_increment_id":"10000489999","product_types":["simple"],"currency":"USD","address":{"shipping":{"name":{"full_name":"Rajendra Pawar","first":"Rajendra","last":"Pawar"},"address":{"line":["5396","North Reese Avenue"],"city":"Fresno","state":"CA","postcode":"93722","country":"US"}},"billing":{"name":{"full_name":"Rajendra Pawar","first":"Rajendra","last":"Pawar"},"address":{"line":["5396","North Reese Avenue"],"city":"Fresno","state":"CA","postcode":"93722","country":"US"}}},"metadata":{"platform_type":"Magento 2","platform_version":"2.4.6-p3 Community","platform_affirm":"3.3.5","mode":"modal"}}'))
+          window.affirm.checkout(JSON.parse('{"merchant":{"user_confirmation_url":"https://5bc36db30a.nxcli.io/affirm/payment/confirm/","user_cancel_url":"https://5bc36db30a.nxcli.io/affirm/payment/cancel/","user_confirmation_url_action":"POST"},"config":{"financial_product_key":null},"items":[{"display_name":"DJI Mini 4 Pro Fly More Combo Plus with DJI RC 2 Remote","sku":"HLI1367","unit_price":115900,"qty":1,"item_image_url":"https://5bc36db30a.nxcli.io/media/catalog/product/cache/b377d4abde7eadaa56c64531724a86aa/h/l/hli1364_3.jpeg","item_url":"https://5bc36db30a.nxcli.io/dji-mini-4-pro-fly-more-combo-plus-with-dji-rc-2-remote.html"}],"order_id":"1000048975","shipping_amount":0,"tax_amount":0,"total":115900,"shipping":{"address":{"street1":"5396","city":"Fresno","region1_code":"CA","postal_code":"93722","country":"US","street2":"North Reese Avenue"},"name":{"full":"Rajendra Pawar"},"phone_number":"3015423996","email":"pawarrajendra201@gmail.com"},"billing":{"address":{"street1":"5396","city":"Fresno","region1_code":"CA","postal_code":"93722","country":"US","street2":"North Reese Avenue"},"name":{"full":"Rajendra Pawar"},"phone_number":"3015423996","email":"pawarrajendra201@gmail.com"},"discounts":null,"metadata":{"platform_type":"Magento 2","platform_version":"2.4.6-p3 Community","platform_affirm":"3.3.5","mode":"modal","shipping_type":"Free Shipping - You Get Free Shipping On This Order! "},"currency":"USD","locale":"en_US"}'))
+          /* window.affirm.checkout.inline({
+              merchant: {
+                  inline_container: "affirm-inline-checkout"
+              },
+          }); */
+          window.affirm.checkout.post();
+
+      })
+      }
+      // order.value = await make();
+      // setCart(null);
+      // app.$vsf.$magento.config.state.removeCartId();
+      // await load();
+      // await removeItem('checkout');
+      // const thankYouRoute = app.localeRoute({
+      //   name: 'thank-you',
+      //   query: {
+      //     order: order.value.order.order_number,
+      //   },
+      // });
+      // await router.push(thankYouRoute);
     };
 
     const discounts = computed(() => cartGetters.getDiscounts(cart.value));
