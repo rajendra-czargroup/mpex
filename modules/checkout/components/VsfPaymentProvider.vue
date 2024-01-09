@@ -15,6 +15,8 @@
         {{ method.title }}
       </div>
     </SfRadio>
+<div id="paypal-container">
+</div>
   </div>
 </template>
 
@@ -23,7 +25,7 @@ import { SfRadio } from '@storefront-ui/vue';
 import { ref, onMounted, defineComponent } from '@nuxtjs/composition-api';
 import usePaymentProvider from '~/modules/checkout/composables/usePaymentProvider';
 import type { AvailablePaymentMethod } from '~/modules/GraphQL/types';
-import Affirm_script from '~/components/czar/affirm_script/affirm_script.vue';
+import { loadScript } from '@paypal/paypal-js';
 
 export default defineComponent({
   name: 'VsfPaymentProvider',
@@ -41,11 +43,18 @@ export default defineComponent({
     });
 
     const definePaymentMethods = async (paymentMethodCode: string) => {
-      // paymentMethods.value = await save({
-      //   paymentMethod: {
-      //     code: paymentMethodCode,
-      //   },
-      // });
+      if(paymentMethodCode == 'payflow_express') {
+          const paypal = await loadScript({ clientId: "Abi8nzgDs0kaiiGe3ptKFzkPaL4qpIFs3R0tyn91jxo9hCdCBWW_uEZmzGTPO8P1Yj9ZA2J3ZmxsqVKl" });
+          if (paypal) {
+            await paypal.Buttons().render("#paypal-container");
+          }          
+      }
+
+      paymentMethods.value = await save({
+        paymentMethod: {
+          code: paymentMethodCode,
+        },
+      });
 
       selectedPaymentMethodCode.value = paymentMethodCode;
       emit('status', paymentMethodCode);
